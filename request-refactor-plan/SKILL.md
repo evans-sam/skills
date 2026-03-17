@@ -1,25 +1,33 @@
 ---
 name: request-refactor-plan
-description: Create a detailed refactor plan with tiny commits via user interview, then file it as a GitHub issue. Use when user wants to plan a refactor, create a refactoring RFC, or break a refactor into safe incremental steps.
+description: Create a detailed refactor plan with tiny commits via user interview, then save it as a local markdown RFC document. Use when user wants to plan a refactor, create a refactoring RFC, or break a refactor into safe incremental steps.
 ---
 
 This skill will be invoked when the user wants to create a refactor request. You should go through the steps below. You may skip steps if you don't consider them necessary.
 
-1. Ask the user for a long, detailed description of the problem they want to solve and any potential ideas for solutions.
+1. Ask the user for a long, detailed description of the problem they want to solve and any potential ideas for solutions. The user may also provide links to Linear issues, Figma designs, or Notion documents.
 
-2. Explore the repo to verify their assertions and understand the current state of the codebase.
+2. Gather external context. If the user provided references to external tools, use the available MCP tools to pull in context:
 
-3. Ask whether they have considered other options, and present other options to them.
+   - **Linear**: The user may provide a ticket code (e.g., `EO-1234`) or a URL. Fetch issue details, comments, and project context to understand the motivation, constraints, and prior discussion around the refactor.
+   - **Figma**: The user may provide a Figma URL. Fetch design context if the refactor involves UI changes, to understand the target design.
+   - **Notion**: The user may provide a page title or a URL. Search Notion by title if no URL is given. Fetch documents for architectural decision records, tech debt inventories, or related specs.
 
-4. Interview the user about the implementation. Be extremely detailed and thorough.
+   Use this context to inform your understanding of the refactor scope. If no external references are provided, skip this step.
 
-5. Hammer out the exact scope of the implementation. Work out what you plan to change and what you plan not to change.
+3. Explore the repo to verify their assertions and understand the current state of the codebase.
 
-6. Look in the codebase to check for test coverage of this area of the codebase. If there is insufficient test coverage, ask the user what their plans for testing are.
+4. Ask whether they have considered other options, and present other options to them.
 
-7. Break the implementation into a plan of tiny commits. Remember Martin Fowler's advice to "make each refactoring step as small as possible, so that you can always see the program working."
+5. Interview the user about the implementation. Be extremely detailed and thorough. Refer back to any external context gathered in step 2 to avoid re-asking questions already answered in external sources.
 
-8. Create a GitHub issue with the refactor plan. Use the following template for the issue description:
+6. Hammer out the exact scope of the implementation. Work out what you plan to change and what you plan not to change.
+
+7. Look in the codebase to check for test coverage of this area of the codebase. If there is insufficient test coverage, ask the user what their plans for testing are.
+
+8. Break the implementation into a plan of tiny commits. Remember Martin Fowler's advice to "make each refactoring step as small as possible, so that you can always see the program working."
+
+9. Save the refactor plan as a markdown file in `~/Development/docs/rfc/` with a kebab-case filename derived from the refactor topic (e.g., `extract-auth-module.md`). Use the following template:
 
 <refactor-plan-template>
 

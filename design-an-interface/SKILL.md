@@ -19,9 +19,19 @@ Before designing, understand:
 - [ ] Any constraints? (performance, compatibility, existing patterns)
 - [ ] What should be hidden inside vs exposed?
 
-Ask: "What does this module need to do? Who will use it?"
+Ask: "What does this module need to do? Who will use it?" The user may also provide links to Figma designs, Linear issues, or Notion documents.
 
-### 2. Generate Designs (Parallel Sub-Agents)
+### 2. Gather external context
+
+If the user provided references to external tools, use the available MCP tools to pull in context:
+
+- **Figma**: The user may provide a Figma URL. Fetch design context and screenshots to understand the visual and interaction design that the interface must support.
+- **Linear**: The user may provide a ticket code (e.g., `EO-1234`) or a URL. Fetch issue details for requirements, constraints, and prior discussion.
+- **Notion**: The user may provide a page title or a URL. Search Notion by title if no URL is given. Fetch documents for specs, API contracts, or architectural notes.
+
+Use this context to refine the requirements checklist above. If no external references are provided, skip this step.
+
+### 3. Generate Designs (Parallel Sub-Agents)
 
 Spawn 3+ sub-agents simultaneously using Task tool. Each must produce a **radically different** approach.
 
@@ -45,7 +55,7 @@ Output format:
 4. Trade-offs of this approach
 ```
 
-### 3. Present Designs
+### 4. Present Designs
 
 Show each design with:
 
@@ -55,7 +65,7 @@ Show each design with:
 
 Present designs sequentially so user can absorb each approach before comparison.
 
-### 4. Compare Designs
+### 5. Compare Designs
 
 After showing all designs, compare them on:
 
@@ -67,7 +77,7 @@ After showing all designs, compare them on:
 
 Discuss trade-offs in prose, not tables. Highlight where designs diverge most.
 
-### 5. Synthesize
+### 6. Synthesize
 
 Often the best design combines insights from multiple options. Ask:
 

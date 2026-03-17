@@ -1,25 +1,35 @@
 ---
 name: prd-to-issues
-description: Break a PRD into independently-grabbable GitHub issues using tracer-bullet vertical slices. Use when user wants to convert a PRD to issues, create implementation tickets, or break down a PRD into work items.
+description: Break a PRD into independently-grabbable implementation issues using tracer-bullet vertical slices. Use when user wants to convert a PRD to issues, create implementation tickets, or break down a PRD into work items.
 ---
 
 # PRD to Issues
 
-Break a PRD into independently-grabbable GitHub issues using vertical slices (tracer bullets).
+Break a PRD into independently-grabbable implementation issues using vertical slices (tracer bullets).
 
 ## Process
 
 ### 1. Locate the PRD
 
-Ask the user for the PRD GitHub issue number (or URL).
+Ask the user for the PRD file path (likely in `~/Development/docs/prd/`). The user may also provide links to Linear issues/projects, Figma designs, or Notion documents for additional context.
 
-If the PRD is not already in your context window, fetch it with `gh issue view <number>` (with comments).
+If the PRD is not already in your context window, read it from the provided file path.
 
-### 2. Explore the codebase (optional)
+### 2. Gather external context
+
+If the user provided references to external tools, use the available MCP tools to pull in additional context:
+
+- **Linear**: The user may provide ticket codes (e.g., `EO-1234`) or URLs. Fetch related issues, project details, or initiative context to understand scope, dependencies, and prior decisions.
+- **Figma**: The user may provide a Figma URL. Fetch design context and screenshots to understand UI requirements and component boundaries for each slice.
+- **Notion**: The user may provide page titles or URLs. Search Notion by title if no URL is given. Fetch documents for supplementary specs, notes, or research.
+
+Use this context to inform how you break the PRD into slices. If no external references are provided, skip this step.
+
+### 3. Explore the codebase (optional)
 
 If you have not already explored the codebase, do so to understand the current state of the code.
 
-### 3. Draft vertical slices
+### 4. Draft vertical slices
 
 Break the PRD into **tracer bullet** issues. Each issue is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
 
@@ -31,7 +41,7 @@ Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an
 - Prefer many thin slices over few thick ones
 </vertical-slice-rules>
 
-### 4. Quiz the user
+### 5. Quiz the user
 
 Present the proposed breakdown as a numbered list. For each slice, show:
 
@@ -49,16 +59,16 @@ Ask the user:
 
 Iterate until the user approves the breakdown.
 
-### 5. Create the GitHub issues
+### 6. Create the issue documents
 
-For each approved slice, create a GitHub issue using `gh issue create`. Use the issue body template below.
+For each approved slice, save a markdown file in `~/Development/docs/issues/`. Use a kebab-case filename derived from the slice title (e.g., `add-user-auth-flow.md`). Use the issue body template below.
 
-Create issues in dependency order (blockers first) so you can reference real issue numbers in the "Blocked by" field.
+Create issues in dependency order (blockers first) so you can reference filenames in the "Blocked by" field.
 
 <issue-template>
 ## Parent PRD
 
-#<prd-issue-number>
+`<prd-filename>` (in `~/Development/docs/prd/`)
 
 ## What to build
 
@@ -72,7 +82,7 @@ A concise description of this vertical slice. Describe the end-to-end behavior, 
 
 ## Blocked by
 
-- Blocked by #<issue-number> (if any)
+- Blocked by `<issue-filename>` (if any)
 
 Or "None - can start immediately" if no blockers.
 
@@ -85,4 +95,4 @@ Reference by number from the parent PRD:
 
 </issue-template>
 
-Do NOT close or modify the parent PRD issue.
+Do NOT modify the parent PRD document.

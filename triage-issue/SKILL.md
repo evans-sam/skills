@@ -1,21 +1,28 @@
 ---
 name: triage-issue
-description: Triage a bug or issue by exploring the codebase to find root cause, then create a GitHub issue with a TDD-based fix plan. Use when user reports a bug, wants to file an issue, mentions "triage", or wants to investigate and plan a fix for a problem.
+description: Triage a bug or issue by exploring the codebase to find root cause, then create a markdown issue document with a TDD-based fix plan. Use when user reports a bug, wants to file an issue, mentions "triage", or wants to investigate and plan a fix for a problem.
 ---
 
 # Triage Issue
 
-Investigate a reported problem, find its root cause, and create a GitHub issue with a TDD fix plan. This is a mostly hands-off workflow - minimize questions to the user.
+Investigate a reported problem, find its root cause, and create a markdown issue document with a TDD fix plan. This is a mostly hands-off workflow - minimize questions to the user.
 
 ## Process
 
 ### 1. Capture the problem
 
-Get a brief description of the issue from the user. If they haven't provided one, ask ONE question: "What's the problem you're seeing?"
+Get a brief description of the issue from the user. If they haven't provided one, ask ONE question: "What's the problem you're seeing?" The user may also provide a Linear issue link, Notion document, or other external reference.
 
-Do NOT ask follow-up questions yet. Start investigating immediately.
+### 2. Gather external context
 
-### 2. Explore and diagnose
+If the user provided references to external tools, use the available MCP tools to pull in context before investigating:
+
+- **Linear**: The user may provide a ticket code (e.g., `EO-1234`) or a URL. Fetch issue details, comments, and status to understand the reported problem, reproduction steps, and any prior triage.
+- **Notion**: The user may provide a page title or a URL. Search Notion by title if no URL is given. Fetch documents for related specs or incident notes.
+
+Use this context alongside the user's description. If no external references are provided, skip this step. Do NOT ask follow-up questions — start investigating immediately.
+
+### 3. Explore and diagnose
 
 Use the Agent tool with subagent_type=Explore to deeply investigate the codebase. Your goal is to find:
 
@@ -31,7 +38,7 @@ Look at:
 - Error handling in the code path
 - Similar patterns elsewhere in the codebase that work correctly
 
-### 3. Identify the fix approach
+### 4. Identify the fix approach
 
 Based on your investigation, determine:
 
@@ -40,7 +47,7 @@ Based on your investigation, determine:
 - What behaviors need to be verified via tests
 - Whether this is a regression, missing feature, or design flaw
 
-### 4. Design TDD fix plan
+### 5. Design TDD fix plan
 
 Create a concrete, ordered list of RED-GREEN cycles. Each cycle is one vertical slice:
 
@@ -54,9 +61,9 @@ Rules:
 - Include a final refactor step if needed
 - **Durability**: Only suggest fixes that would survive radical codebase changes. Describe behaviors and contracts, not internal structure. Tests assert on observable outcomes (API responses, UI state, user-visible effects), not internal state. A good suggestion reads like a spec; a bad one reads like a diff.
 
-### 5. Create the GitHub issue
+### 6. Create the issue document
 
-Create a GitHub issue using `gh issue create` with the template below. Do NOT ask the user to review before creating - just create it and share the URL.
+Save a markdown file in `~/Development/docs/issues/` with a kebab-case filename derived from the problem (e.g., `broken-auth-redirect.md`). Use the template below. Do NOT ask the user to review before creating - just create it and share the file path.
 
 <issue-template>
 
@@ -99,4 +106,4 @@ A numbered list of RED-GREEN cycles:
 
 </issue-template>
 
-After creating the issue, print the issue URL and a one-line summary of the root cause.
+After creating the document, print the file path and a one-line summary of the root cause.

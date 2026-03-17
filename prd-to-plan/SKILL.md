@@ -11,13 +11,23 @@ Break a PRD into a phased implementation plan using vertical slices (tracer bull
 
 ### 1. Confirm the PRD is in context
 
-The PRD should already be in the conversation. If it isn't, ask the user to paste it or point you to the file.
+The PRD should already be in the conversation. If it isn't, ask the user to paste it or point you to the file. The user may also provide links to Linear issues/projects, Figma designs, or Notion documents for additional context.
 
-### 2. Explore the codebase
+### 2. Gather external context
+
+If the user provided references to external tools, use the available MCP tools to pull in additional context:
+
+- **Linear**: The user may provide ticket codes (e.g., `EO-1234`) or URLs. Fetch related issues or project details to understand scope, priorities, and constraints.
+- **Figma**: The user may provide a Figma URL. Fetch design context and screenshots to understand UI requirements that inform how slices should be cut.
+- **Notion**: The user may provide page titles or URLs. Search Notion by title if no URL is given. Fetch documents for supplementary specs or architectural notes.
+
+Use this context alongside the PRD to inform phasing decisions. If no external references are provided, skip this step.
+
+### 3. Explore the codebase
 
 If you have not already explored the codebase, do so to understand the current architecture, existing patterns, and integration layers.
 
-### 3. Identify durable architectural decisions
+### 4. Identify durable architectural decisions
 
 Before slicing, identify high-level decisions that are unlikely to change throughout implementation:
 
@@ -29,7 +39,7 @@ Before slicing, identify high-level decisions that are unlikely to change throug
 
 These go in the plan header so every phase can reference them.
 
-### 4. Draft vertical slices
+### 5. Draft vertical slices
 
 Break the PRD into **tracer bullet** phases. Each phase is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
 
@@ -41,7 +51,7 @@ Break the PRD into **tracer bullet** phases. Each phase is a thin vertical slice
 - DO include durable decisions: route paths, schema shapes, data model names
 </vertical-slice-rules>
 
-### 5. Quiz the user
+### 6. Quiz the user
 
 Present the proposed breakdown as a numbered list. For each phase show:
 
@@ -55,7 +65,7 @@ Ask the user:
 
 Iterate until the user approves the breakdown.
 
-### 6. Write the plan file
+### 7. Write the plan file
 
 Create `./plans/` if it doesn't exist. Write the plan as a Markdown file named after the feature (e.g. `./plans/user-onboarding.md`). Use the template below.
 
