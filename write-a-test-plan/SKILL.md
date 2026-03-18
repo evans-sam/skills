@@ -14,7 +14,7 @@ Generate a comprehensive testing plan by searching the conversation and project 
 Search for context in this order. Use ALL sources found, not just the first match:
 
 - **Conversation context**: Check if a PRD, implementation plan, or triage doc has already been discussed
-- **Local docs**: Search `~/Development/docs/prd/`, `~/Development/docs/issues/`, and `~/Development/docs/plans/` for relevant documents
+- **Local docs**: Search `~/Development/docs/prd/`, `~/Development/docs/issues/`, and `/plans/` for relevant documents
 - **Codebase**: Explore existing tests, test utilities, fixtures, and test configuration to understand current test patterns
 
 The user may also provide links to Linear issues, Figma designs, or Notion documents for additional context.
