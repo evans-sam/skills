@@ -74,3 +74,9 @@ After comparing, give your own recommendation: which design you think is stronge
 ### 7. Create Markdown issue
 
 Create a refactor RFC as a markdown doc in `~/Development/docs/rfc`. Use the template in [REFERENCE.md](REFERENCE.md). Do NOT ask the user to review before creating — just create it and share the file path.
+
+After saving, commit and push the file:
+
+```bash
+cd ~/Development/docs && git add rfc/<filename>.md && git commit -m "Add RFC: <refactor topic>" && git push
+```

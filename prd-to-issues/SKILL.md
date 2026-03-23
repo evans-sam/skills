@@ -65,6 +65,12 @@ For each approved slice, save a markdown file in `~/Development/docs/issues/`. U
 
 Create issues in dependency order (blockers first) so you can reference filenames in the "Blocked by" field.
 
+After saving all issue files, commit and push them:
+
+```bash
+cd ~/Development/docs && git add issues/ && git commit -m "Add issues for: <PRD name>" && git push
+```
+
 <issue-template>
 ## Parent PRD
 

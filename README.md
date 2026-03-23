@@ -2,6 +2,29 @@
 
 A collection of agent skills that extend capabilities across planning, development, and tooling.
 
+## Docs Repo Setup
+
+Several skills save persistent documents (PRDs, issues, test plans, RFCs) to `~/Development/docs/`. This directory should be a git clone of a personal GitHub docs repository so documents are synced across devices and available in cloud development environments.
+
+**One-time setup:**
+
+```bash
+# Create a new private GitHub repo (e.g. https://github.com/new), then clone it:
+git clone git@github.com:<your-username>/docs.git ~/Development/docs
+
+# Create the expected subdirectories:
+mkdir -p ~/Development/docs/{prd,issues,test-plans,rfc}
+cd ~/Development/docs && git add . && git commit -m "Initialize docs structure" && git push
+```
+
+**In cloud / new environments:**
+
+```bash
+git clone git@github.com:<your-username>/docs.git ~/Development/docs
+```
+
+Skills that write to this directory automatically commit and push after saving, so documents are always up to date on GitHub.
+
 ## Installation
 
 Install all skills using the [Vercel skills CLI](https://github.com/vercel-labs/skills):

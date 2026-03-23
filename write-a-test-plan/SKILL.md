@@ -63,6 +63,12 @@ Iterate until the user approves.
 
 Create `~/Development/docs/test-plans/` if it doesn't exist. Save the plan with a kebab-case filename derived from the feature name (e.g., `user-onboarding-test-plan.md`).
 
+After saving, commit and push the file:
+
+```bash
+cd ~/Development/docs && git add test-plans/<filename>.md && git commit -m "Add test plan: <feature name>" && git push
+```
+
 <test-plan-template>
 # Test Plan: <Feature Name>
 

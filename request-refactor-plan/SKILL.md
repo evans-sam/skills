@@ -27,7 +27,11 @@ This skill will be invoked when the user wants to create a refactor request. You
 
 8. Break the implementation into a plan of tiny commits. Remember Martin Fowler's advice to "make each refactoring step as small as possible, so that you can always see the program working."
 
-9. Save the refactor plan as a markdown file in `~/Development/docs/rfc/` with a kebab-case filename derived from the refactor topic (e.g., `extract-auth-module.md`). Use the following template:
+9. Save the refactor plan as a markdown file in `~/Development/docs/rfc/` with a kebab-case filename derived from the refactor topic (e.g., `extract-auth-module.md`). Use the following template. After saving, commit and push the file:
+
+```bash
+cd ~/Development/docs && git add rfc/<filename>.md && git commit -m "Add RFC: <refactor topic>" && git push
+```
 
 <refactor-plan-template>
 

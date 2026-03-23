@@ -65,6 +65,12 @@ Rules:
 
 Save a markdown file in `~/Development/docs/issues/` with a kebab-case filename derived from the problem (e.g., `broken-auth-redirect.md`). Use the template below. Do NOT ask the user to review before creating - just create it and share the file path.
 
+After saving, commit and push the file:
+
+```bash
+cd ~/Development/docs && git add issues/<filename>.md && git commit -m "Triage: <problem summary>" && git push
+```
+
 <issue-template>
 
 ## Problem

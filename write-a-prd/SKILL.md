@@ -25,7 +25,13 @@ A deep module (as opposed to a shallow module) is one which encapsulates a lot o
 
 Check with the user that these modules match their expectations. Check with the user which modules they want tests written for.
 
-6. Once you have a complete understanding of the problem and solution, use the template below to write the PRD. The PRD should be saved as a markdown file in the `~/Development/docs/prd` directory.
+6. Once you have a complete understanding of the problem and solution, use the template below to write the PRD. The PRD should be saved as a markdown file in the `~/Development/docs/prd` directory (this should be a git clone of your personal GitHub docs repo — see setup instructions in that repo's README).
+
+After saving, commit and push the new file:
+
+```bash
+cd ~/Development/docs && git add prd/<filename>.md && git commit -m "Add PRD: <feature name>" && git push
+```
 
 <prd-template>
 
