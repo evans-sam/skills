@@ -63,15 +63,14 @@ Rules:
 
 ### 6. Create the issue document
 
-Follow `~/.claude/skills/_lib/resolve-docs-path.md` Steps 1–3 to resolve `<doc-root>`.
+Ask the user where they'd like this saved. Common destinations:
 
-Save a markdown file at `<doc-root>/issues/<kebab-case-problem>.md`. Use the template below. Do NOT ask the user to review before creating — just create it and share the file path.
+- **GitHub Issue**: create it directly with `gh issue create`
+- **Local file**: save to a path of the user's choice
+- **Linear**: create via Linear MCP tools if available
+- **Notion / Confluence**: create a page via MCP tools if available
 
-Commit and push per Step 5 of the helper:
-
-```
-docs(<org>/<repo>): triage <filename>
-```
+Use the template below. Do NOT ask the user to review before creating — just create it and share the link or path.
 
 <issue-template>
 

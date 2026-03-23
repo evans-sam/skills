@@ -11,17 +11,9 @@ Break a PRD into independently-grabbable implementation issues using vertical sl
 
 ### 1. Locate the PRD
 
-Follow `~/.claude/skills/_lib/resolve-docs-path.md` Steps 1–4 to resolve `<doc-root>` and pull the latest docs.
+Ask the user where the PRD lives. It might be a local file path, a GitHub wiki page, a Notion or Confluence doc, or already in the conversation. The user may also provide links to Linear issues/projects or Figma designs for additional context.
 
-List the available PRDs:
-
-```bash
-ls <doc-root>/prd/
-```
-
-Ask the user which PRD to use (by filename). The user may also provide links to Linear issues/projects, Figma designs, or Notion documents for additional context.
-
-Read the selected PRD from `<doc-root>/prd/<filename>.md`.
+Read or fetch the PRD from wherever it lives.
 
 ### 2. Gather external context
 
@@ -69,20 +61,21 @@ Iterate until the user approves the breakdown.
 
 ### 6. Create the issue documents
 
-For each approved slice, save a markdown file in `<doc-root>/issues/`. Use a kebab-case filename derived from the slice title (e.g., `add-user-auth-flow.md`). Use the issue body template below.
+Ask the user where they'd like these saved. Common destinations:
 
-Create issues in dependency order (blockers first) so you can reference filenames in the "Blocked by" field.
+- **GitHub Issues**: create each one directly with `gh issue create`
+- **Local files**: save markdown files to a directory of the user's choice
+- **Notion / Confluence**: create pages via MCP tools if available
+- **Linear**: create issues via Linear MCP tools if available
 
-After saving all issue files, commit and push per Step 5 of `~/.claude/skills/_lib/resolve-docs-path.md`:
+Create issues in dependency order (blockers first) so you can reference each issue in the "Blocked by" field.
 
-```
-docs(<org>/<repo>): add issues for <prd-name>
-```
+Use the issue body template below for each issue.
 
 <issue-template>
 ## Parent PRD
 
-`<prd-filename>` (in `<doc-root>/prd/`)
+`<link or reference to the source PRD>`
 
 ## What to build
 

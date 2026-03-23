@@ -73,13 +73,7 @@ Iterate until approved.
 
 ### 8. Write the plan file
 
-Follow `~/.claude/skills/_lib/resolve-docs-path.md` Steps 1–3 to resolve `<doc-root>`.
-
-Write the plan as Markdown at `<doc-root>/plans/<feature-name>.md`. Commit and push per Step 5 of the helper:
-
-```
-docs(<org>/<repo>): add plan <feature-name>
-```
+Ask the user where they'd like to save this — for example a local file path, a GitHub wiki page, or a Notion doc. Save or deliver it appropriately for the chosen destination.
 
 <plan-template>
 # Plan: <Feature Name>

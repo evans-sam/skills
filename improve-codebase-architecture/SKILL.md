@@ -73,12 +73,10 @@ After comparing, give your own recommendation: which design you think is stronge
 
 ### 7. Create Markdown issue
 
-Follow `~/.claude/skills/_lib/resolve-docs-path.md` Steps 1–3 to resolve `<doc-root>`.
+Ask the user where they'd like to save this RFC. Common destinations:
 
-Create a refactor RFC at `<doc-root>/rfc/<kebab-case-topic>.md`. Use the template in [REFERENCE.md](REFERENCE.md). Do NOT ask the user to review before creating — just create it and share the file path.
+- **Local file**: save to a path of the user's choice
+- **GitHub wiki**: save to the repo wiki
+- **Notion / Confluence**: create a page via MCP tools if available
 
-Commit and push per Step 5 of the helper:
-
-```
-docs(<org>/<repo>): add RFC <topic>
-```
+Use the template in [REFERENCE.md](REFERENCE.md). Do NOT ask the user to review before creating — just create it and share the link or path.

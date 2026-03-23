@@ -27,13 +27,7 @@ Check with the user that these modules match their expectations. Check with the 
 
 6. Once you have a complete understanding of the problem and solution, use the template below to write the PRD.
 
-Before saving, follow `~/.claude/skills/_lib/resolve-docs-path.md` to resolve `<doc-root>`.
-
-Save the PRD as `<doc-root>/prd/<feature-name>.md`, then commit and push per Step 5 of the helper:
-
-```
-docs(<org>/<repo>): add PRD <feature-name>
-```
+Ask the user where they'd like to save it. Common destinations include a local file path, a GitHub wiki page, a Notion or Confluence page, or Apple Notes. Save or deliver it appropriately for the chosen destination.
 
 <prd-template>
 

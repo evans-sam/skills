@@ -27,11 +27,7 @@ This skill will be invoked when the user wants to create a refactor request. You
 
 8. Break the implementation into a plan of tiny commits. Remember Martin Fowler's advice to "make each refactoring step as small as possible, so that you can always see the program working."
 
-9. Follow `~/.claude/skills/_lib/resolve-docs-path.md` Steps 1–3 to resolve `<doc-root>`. Save the refactor plan as `<doc-root>/rfc/<kebab-case-topic>.md`. Use the following template. Commit and push per Step 5 of the helper:
-
-```
-docs(<org>/<repo>): add RFC <topic>
-```
+9. Ask the user where they'd like to save this RFC — for example a local file path, a GitHub wiki page, a Notion or Confluence doc. Use the following template, then save or deliver it appropriately for the chosen destination.
 
 <refactor-plan-template>
 
