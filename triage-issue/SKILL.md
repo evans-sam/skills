@@ -63,12 +63,14 @@ Rules:
 
 ### 6. Create the issue document
 
-Save a markdown file in `~/Development/docs/issues/` with a kebab-case filename derived from the problem (e.g., `broken-auth-redirect.md`). Use the template below. Do NOT ask the user to review before creating - just create it and share the file path.
+Follow `~/.claude/skills/_lib/resolve-docs-path.md` Steps 1–3 to resolve `<doc-root>`.
 
-After saving, commit and push the file:
+Save a markdown file at `<doc-root>/issues/<kebab-case-problem>.md`. Use the template below. Do NOT ask the user to review before creating — just create it and share the file path.
 
-```bash
-cd ~/Development/docs && git add issues/<filename>.md && git commit -m "Triage: <problem summary>" && git push
+Commit and push per Step 5 of the helper:
+
+```
+docs(<org>/<repo>): triage <filename>
 ```
 
 <issue-template>

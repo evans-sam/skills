@@ -11,9 +11,17 @@ Break a PRD into independently-grabbable implementation issues using vertical sl
 
 ### 1. Locate the PRD
 
-Ask the user for the PRD file path (likely in `~/Development/docs/prd/`). The user may also provide links to Linear issues/projects, Figma designs, or Notion documents for additional context.
+Follow `~/.claude/skills/_lib/resolve-docs-path.md` Steps 1–4 to resolve `<doc-root>` and pull the latest docs.
 
-If the PRD is not already in your context window, read it from the provided file path.
+List the available PRDs:
+
+```bash
+ls <doc-root>/prd/
+```
+
+Ask the user which PRD to use (by filename). The user may also provide links to Linear issues/projects, Figma designs, or Notion documents for additional context.
+
+Read the selected PRD from `<doc-root>/prd/<filename>.md`.
 
 ### 2. Gather external context
 
@@ -61,20 +69,20 @@ Iterate until the user approves the breakdown.
 
 ### 6. Create the issue documents
 
-For each approved slice, save a markdown file in `~/Development/docs/issues/`. Use a kebab-case filename derived from the slice title (e.g., `add-user-auth-flow.md`). Use the issue body template below.
+For each approved slice, save a markdown file in `<doc-root>/issues/`. Use a kebab-case filename derived from the slice title (e.g., `add-user-auth-flow.md`). Use the issue body template below.
 
 Create issues in dependency order (blockers first) so you can reference filenames in the "Blocked by" field.
 
-After saving all issue files, commit and push them:
+After saving all issue files, commit and push per Step 5 of `~/.claude/skills/_lib/resolve-docs-path.md`:
 
-```bash
-cd ~/Development/docs && git add issues/ && git commit -m "Add issues for: <PRD name>" && git push
+```
+docs(<org>/<repo>): add issues for <prd-name>
 ```
 
 <issue-template>
 ## Parent PRD
 
-`<prd-filename>` (in `~/Development/docs/prd/`)
+`<prd-filename>` (in `<doc-root>/prd/`)
 
 ## What to build
 

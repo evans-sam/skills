@@ -73,7 +73,13 @@ Iterate until approved.
 
 ### 8. Write the plan file
 
-Create `./plans/` if it doesn't exist. Write the plan as Markdown named after the feature (e.g. `./plans/user-onboarding.md`).
+Follow `~/.claude/skills/_lib/resolve-docs-path.md` Steps 1–3 to resolve `<doc-root>`.
+
+Write the plan as Markdown at `<doc-root>/plans/<feature-name>.md`. Commit and push per Step 5 of the helper:
+
+```
+docs(<org>/<repo>): add plan <feature-name>
+```
 
 <plan-template>
 # Plan: <Feature Name>

@@ -4,26 +4,52 @@ A collection of agent skills that extend capabilities across planning, developme
 
 ## Docs Repo Setup
 
-Several skills save persistent documents (PRDs, issues, test plans, RFCs) to `~/Development/docs/`. This directory should be a git clone of a personal GitHub docs repository so documents are synced across devices and available in cloud development environments.
+Several skills save persistent documents (PRDs, issues, test plans, RFCs, plans) to a shared
+GitHub docs repo. Documents are organised by the project they relate to:
 
-**One-time setup:**
-
-```bash
-# Create a new private GitHub repo (e.g. https://github.com/new), then clone it:
-git clone git@github.com:<your-username>/docs.git ~/Development/docs
-
-# Create the expected subdirectories:
-mkdir -p ~/Development/docs/{prd,issues,test-plans,rfc}
-cd ~/Development/docs && git add . && git commit -m "Initialize docs structure" && git push
+```
+<DOCS_PATH>/
+└── <github-org>/
+    └── <github-repo>/
+        ├── prd/
+        ├── issues/
+        ├── test-plans/
+        ├── rfc/
+        └── plans/
 ```
 
-**In cloud / new environments:**
+Skills detect the current project automatically from `git remote get-url origin` and commit +
+push after every write, so documents stay in sync across all devices and cloud environments.
 
-```bash
-git clone git@github.com:<your-username>/docs.git ~/Development/docs
+### Configuration
+
+Set these environment variables in `~/.claude/settings.json`:
+
+```json
+{
+  "env": {
+    "DOCS_REPO": "your-username/docs",
+    "DOCS_PATH": "~/Development/docs"
+  }
+}
 ```
 
-Skills that write to this directory automatically commit and push after saving, so documents are always up to date on GitHub.
+`DOCS_PATH` is optional and defaults to `~/Development/docs`.
+
+### One-time setup
+
+```bash
+# Create a new private GitHub repo at https://github.com/new, then:
+git clone git@github.com:your-username/docs.git ~/Development/docs
+```
+
+### In a new cloud environment
+
+```bash
+git clone git@github.com:your-username/docs.git ~/Development/docs
+```
+
+That's it — skills create per-project subdirectories automatically on first use.
 
 ## Installation
 

@@ -73,10 +73,12 @@ After comparing, give your own recommendation: which design you think is stronge
 
 ### 7. Create Markdown issue
 
-Create a refactor RFC as a markdown doc in `~/Development/docs/rfc`. Use the template in [REFERENCE.md](REFERENCE.md). Do NOT ask the user to review before creating — just create it and share the file path.
+Follow `~/.claude/skills/_lib/resolve-docs-path.md` Steps 1–3 to resolve `<doc-root>`.
 
-After saving, commit and push the file:
+Create a refactor RFC at `<doc-root>/rfc/<kebab-case-topic>.md`. Use the template in [REFERENCE.md](REFERENCE.md). Do NOT ask the user to review before creating — just create it and share the file path.
 
-```bash
-cd ~/Development/docs && git add rfc/<filename>.md && git commit -m "Add RFC: <refactor topic>" && git push
+Commit and push per Step 5 of the helper:
+
+```
+docs(<org>/<repo>): add RFC <topic>
 ```
