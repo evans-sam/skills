@@ -4,26 +4,19 @@ A collection of agent skills that extend capabilities across planning, developme
 
 ## Installation
 
-Install all skills using the [Vercel skills CLI](https://github.com/vercel-labs/skills):
+Install as a Claude plugin:
 
 ```bash
-npx skills@latest add evans-sam/skills
+claude plugin add evans-sam/skills
 ```
 
-Or install individual skills:
+Or install individual skills after adding the plugin:
 
 ```bash
-npx skills@latest add evans-sam/skills --skill write-a-plan --skill tdd
+claude plugin add evans-sam/skills --skill write-a-plan --skill tdd
 ```
 
-You can also install the CLI globally:
-
-```bash
-npm i -g skills
-skills add evans-sam/skills
-```
-
-Skills are installed to `~/.claude/skills/` and available immediately in Claude Code.
+Skills are available immediately in Claude Code after installation.
 
 ## Planning & Design
 

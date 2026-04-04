@@ -26,12 +26,13 @@ description: Create new agent skills with proper structure, progressive disclosu
 ## Skill Structure
 
 ```
-skill-name/
-├── SKILL.md           # Main instructions (required)
-├── REFERENCE.md       # Detailed docs (if needed)
-├── EXAMPLES.md        # Usage examples (if needed)
-└── scripts/           # Utility scripts (if needed)
-    └── helper.js
+skills/
+└── skill-name/
+    ├── SKILL.md           # Main instructions (required)
+    ├── REFERENCE.md       # Detailed docs (if needed)
+    ├── EXAMPLES.md        # Usage examples (if needed)
+    └── scripts/           # Utility scripts (if needed)
+        └── helper.js
 ```
 
 ## SKILL.md Template
