@@ -2,6 +2,6 @@
   "name": "evans-sam-skills",
   "version": "1.0.0",
   "description": "A collection of agent skills for planning, development, and tooling",
-  "author": { "name": "Matt Pocock" },
+  "author": { "name": "Sam Evans" },
   "license": "MIT"
 }
