@@ -1,0 +1,12 @@
+{
+  "name": "evans-sam-skills",
+  "description": "A collection of agent skills for planning, development, and tooling",
+  "owner": { "name": "Sam Evans" },
+  "plugins": [
+    {
+      "name": "skills",
+      "source": "./",
+      "description": "A collection of agent skills for planning, development, and tooling"
+    }
+  ]
+}
