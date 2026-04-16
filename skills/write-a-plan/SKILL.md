@@ -1,6 +1,6 @@
 ---
 name: write-a-plan
-description: Create a robust implementation plan from scratch through relentless interviewing, codebase exploration, and vertical slicing. Saves to ./plans/. Use when user wants to write a plan, create an implementation plan, plan a feature, or needs to think through how to build something — without requiring a PRD first.
+description: Create a robust implementation plan from scratch through relentless interviewing, codebase exploration, and vertical slicing. Use when user wants to write a plan, create an implementation plan, plan a feature, or needs to think through how to build something — without requiring a PRD first.
 ---
 
 # Write a Plan

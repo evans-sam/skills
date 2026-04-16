@@ -5,7 +5,7 @@ description: Create a comprehensive testing plan from a PRD, implementation plan
 
 # Write a Test Plan
 
-Generate a comprehensive testing plan by searching the conversation and project context for PRDs, implementation plans, triage documents, and issues. Output is a Markdown file in `~/Development/docs/test-plans/`.
+Generate a comprehensive testing plan by searching the conversation and project context for PRDs, implementation plans, triage documents, and issues.
 
 ## Process
 
