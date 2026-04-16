@@ -4,19 +4,14 @@ A collection of agent skills that extend capabilities across planning, developme
 
 ## Installation
 
-Install as a Claude plugin:
+Install as a Claude Code plugin:
 
-```bash
-claude plugin add evans-sam/skills
+```
+/plugin marketplace add evans-sam/skills
+/plugin install skills@evans-sam-skills
 ```
 
-Or install individual skills after adding the plugin:
-
-```bash
-claude plugin add evans-sam/skills --skill write-a-plan --skill tdd
-```
-
-Skills are available immediately in Claude Code after installation.
+Skills are available immediately as `skills:<skill-name>` after installation.
 
 ## Planning & Design
 
