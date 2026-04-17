@@ -1,6 +1,6 @@
 ---
 name: triage-issue
-description: Triage a bug or issue by exploring the codebase to find root cause, then create a markdown issue document with a TDD-based fix plan. Use when user reports a bug, wants to file an issue, mentions "triage", or wants to investigate and plan a fix for a problem.
+description: "Triage a bug hands-off: explore the codebase to find root cause, then produce a markdown issue document with a TDD fix plan (ordered RED-GREEN cycles). Destination configurable — GitHub issue, local file, Linear, Notion. Use when user reports a bug and wants a triage artifact rather than a live fix workflow. Not for building new features."
 ---
 
 # Triage Issue

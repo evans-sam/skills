@@ -1,6 +1,6 @@
 ---
 name: write-a-skill
-description: Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, or build a new skill.
+description: Quick-scaffold a new skill with frontmatter + SKILL.md template + optional bundled files. Use for lightweight skill creation when user doesn't want an eval-driven loop or a TDD-for-skills workflow — fast template-only approach.
 ---
 
 # Writing Skills
