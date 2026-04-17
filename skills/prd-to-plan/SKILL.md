@@ -1,6 +1,6 @@
 ---
 name: prd-to-plan
-description: Turn a PRD into a multi-phase implementation plan using tracer-bullet vertical slices. Use when user wants to break down a PRD, create an implementation plan, plan phases from a PRD, or mentions "tracer bullets".
+description: Turn an existing PRD (local file, Notion, GitHub wiki) into a phase-level implementation plan via tracer-bullet vertical slices, pulling context from Linear/Figma/Notion MCPs where provided. Use when user points to a PRD and wants to break it into phases — not task-by-task steps. Requires an existing PRD.
 ---
 
 # PRD to Plan

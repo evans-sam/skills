@@ -1,6 +1,6 @@
 ---
 name: prd-to-issues
-description: Break a PRD into independently-grabbable implementation issues using tracer-bullet vertical slices. Use when user wants to convert a PRD to issues, create implementation tickets, or break down a PRD into work items.
+description: Turn a PRD into independent ticket artifacts — GitHub issues, Linear tickets, local files, or Notion pages — with HITL/AFK tags and dependency links. Each ticket is a tracer-bullet vertical slice. Use when user wants to produce standalone work items from a PRD. Not for a live feature-building workflow.
 ---
 
 # PRD to Issues

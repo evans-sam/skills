@@ -1,6 +1,6 @@
 ---
 name: write-a-plan
-description: Create a robust implementation plan from scratch through relentless interviewing, codebase exploration, and vertical slicing. Use when user wants to write a plan, create an implementation plan, plan a feature, or needs to think through how to build something — without requiring a PRD first.
+description: Build a phase-level implementation plan from a vague idea via user interview + codebase exploration. Output is numbered tracer-bullet phases (not task-by-task steps). Use when user has no spec/PRD yet and wants to think through how to build something, mentions "phased plan" or "tracer bullet phases," or wants to decompose an idea into vertical slices before getting to step-by-step detail.
 ---
 
 # Write a Plan

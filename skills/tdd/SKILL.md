@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Test-driven development with red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions "red-green-refactor", wants integration tests, or asks for test-first development.
+description: "Plan a vertical-slice TDD sequence (tracer bullets): design interfaces, choose which behaviors to test through public APIs, then drive implementation one test at a time. Use when user mentions tracer bullets, vertical slice TDD, or wants integration-style test-first development with interface-design up front."
 ---
 
 # Test-Driven Development

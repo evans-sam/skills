@@ -1,6 +1,6 @@
 ---
 name: troubleshoot
-description: Research and resolve operational issues (deploy failures, install errors, infra problems) by searching Slack, Notion, Linear, docs, and other connected sources for prior solutions. Use when user says "troubleshoot", "help me fix", "this is broken", pastes CLI error output, or needs help diagnosing a non-code issue like a failed deployment or environment problem.
+description: Search connected tools (Slack, Notion, Linear, docs) for a prior solution to an OPERATIONAL issue — deploy failures, install errors, infra problems, environment breakage. Use when user pastes CLI error output from a non-code failure, asks to troubleshoot an ops issue, or mentions deploys, installs, or infra that's broken. Not for debugging code logic.
 ---
 
 # Troubleshoot
