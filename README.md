@@ -41,7 +41,13 @@ These skills help you write, refactor, and fix code.
 ## Tooling & Setup
 
 - **setup-pre-commit** — Set up Husky pre-commit hooks with lint-staged, Prettier, type checking, and tests.
-- **git-guardrails-claude-code** — Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, etc.) before they execute.
+- **git-guardrails-claude-code** — Docs for the bundled git/gh guardrails hook (what it blocks and how to customize via env vars). The hook itself is shipped as part of this plugin — no manual install.
+
+## Bundled Hooks
+
+Installing this plugin automatically enables:
+
+- **Git & GitHub CLI guardrails** — a `PreToolUse` hook that blocks dangerous `git` (push, reset --hard, clean, branch -D, etc.) and `gh` (repo delete, pr merge, secret set, API mutations, etc.) commands before they run. Customize via `GIT_GUARDRAILS_EXTRA_PATTERNS`, `GIT_GUARDRAILS_ALLOW_PATTERNS`, or disable with `GIT_GUARDRAILS_DISABLE=1`. See the [git-guardrails-claude-code skill](skills/git-guardrails-claude-code/SKILL.md) for the full block list.
 
 ## Meta
 
