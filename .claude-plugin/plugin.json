@@ -1,6 +1,6 @@
 {
   "name": "skills",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A collection of agent skills for planning, development, and tooling",
   "author": { "name": "Sam Evans" },
   "homepage": "https://github.com/evans-sam/skills",
