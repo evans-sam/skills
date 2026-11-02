@@ -1,11 +1,19 @@
 ---
 name: git-guardrails-claude-code
-description: Set up Claude Code hooks to block dangerous git and gh CLI commands before they execute. Use when user wants to prevent destructive git operations, block dangerous GitHub CLI actions (repo delete, pr merge, secret management, API mutations), or add git/gh safety hooks to Claude Code.
+description: Explain what the plugin-shipped git-guardrails PreToolUse hook blocks and how to customize it. Use when user asks what git/gh commands are blocked, why a Bash command was refused with a BLOCKED message, how to add or allow patterns, or how to disable the guardrails.
 ---
 
-# Setup Git & GitHub CLI Guardrails
+# Git & GitHub CLI Guardrails
 
-Sets up a PreToolUse hook that intercepts and blocks dangerous git and gh CLI commands before Claude executes them.
+This plugin ships a `PreToolUse` hook that intercepts and blocks dangerous `git` and `gh` CLI commands before Claude Code executes them. The hook is wired up automatically when you install the plugin; there is no manual setup step.
+
+The script lives at [hooks/block-dangerous-git.sh](../../hooks/block-dangerous-git.sh) and is registered via [hooks/hooks.json](../../hooks/hooks.json).
+
+When a command matches a dangerous pattern, the hook exits with code `2` and prints a `BLOCKED:` message to stderr. Claude Code surfaces this to the assistant as a refusal.
+
+## How matching works
+
+The Bash command is split into segments on newlines, `;`, `&`, `&&`, `|`, `||`, `(`, `$(` and backticks, and every segment is checked on its own. A pattern matches only at the start of a segment, after any `VAR=value` assignments or a prefix such as `sudo`, `env`, `command`, `exec`, `if` or `then`, and after git's own global options (`git -C <dir> push` is still `git push`). A commit message or a `--grep` argument that merely contains the words does not match.
 
 ## What Gets Blocked
 
@@ -13,8 +21,8 @@ Sets up a PreToolUse hook that intercepts and blocks dangerous git and gh CLI co
 
 - `git push` (all variants including `--force`)
 - `git reset --hard`
-- `git clean -f` / `git clean -fd`
-- `git branch -D`
+- `git clean -f` (any flag combination containing `f`, or `--force`)
+- `git branch -D` (or `--delete --force`)
 - `git checkout .` / `git restore .`
 
 ### GitHub CLI (`gh`) commands
@@ -38,84 +46,49 @@ Sets up a PreToolUse hook that intercepts and blocks dangerous git and gh CLI co
 - `gh repo deploy-key add`
 
 **Raw API mutations:**
-- `gh api -X DELETE|POST|PUT|PATCH`
-- `gh api --method DELETE|POST|PUT|PATCH`
+- `gh api` with `-X` or `--method` set to `DELETE`, `POST`, `PUT` or `PATCH`, in any position
+- `gh api` with `-f`, `-F`, `--field`, `--raw-field` or `--input`, which make an implicit `POST`
 
-When blocked, Claude sees a message telling it that it does not have authority to access these commands.
+## Customization
 
-## Steps
+Settings go in the `env` block of a Claude Code settings file. Shell exports in `~/.zshrc` or an `.envrc` don't reach the hook from the desktop app or IDE extensions, which don't start from a login shell.
 
-### 1. Ask scope
-
-Ask the user: install for **this project only** (`.claude/settings.json`) or **all projects** (`~/.claude/settings.json`)?
-
-### 2. Copy the hook script
-
-The bundled script is at: [scripts/block-dangerous-git.sh](scripts/block-dangerous-git.sh)
-
-Copy it to the target location based on scope:
-
-- **Project**: `.claude/hooks/block-dangerous-git.sh`
-- **Global**: `~/.claude/hooks/block-dangerous-git.sh`
-
-Make it executable with `chmod +x`.
-
-### 3. Add hook to settings
-
-Add to the appropriate settings file:
-
-**Project** (`.claude/settings.json`):
+Anything that weakens the guard is read only from the user settings file, `~/.claude/settings.json` (or `$CLAUDE_CONFIG_DIR/settings.json`). The hook ignores those keys in the process environment and in project settings, because the agent it guards can write a project's `.claude/settings.json`.
 
 ```json
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-dangerous-git.sh"
-          }
-        ]
-      }
-    ]
+  "env": {
+    "GIT_GUARDRAILS_ALLOW_PATTERNS": "gh pr comment --body",
+    "GIT_GUARDRAILS_EXTRA_PATTERNS": "terraform destroy\nkubectl delete"
   }
 }
 ```
 
-**Global** (`~/.claude/settings.json`):
+### `GIT_GUARDRAILS_EXTRA_PATTERNS`
 
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/block-dangerous-git.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+Newline-separated extended regular expressions added to the block list. Read from the user settings file or from the process environment, since adding a block can't weaken the guard. Each pattern is tested against each segment of the command.
 
-If the settings file already exists, merge the hook into existing `hooks.PreToolUse` array — don't overwrite other settings.
+### `GIT_GUARDRAILS_ALLOW_PATTERNS`
 
-### 4. Ask about customization
+Newline-separated extended regular expressions. A segment that matches one is allowed even if a block pattern also matches it. The allow applies to that segment only: `gh pr comment --body hi && git push` is still blocked on the second segment. Read from the user settings file only.
 
-Ask if user wants to add or remove any patterns from the blocked list. Edit the copied script accordingly.
+### `GIT_GUARDRAILS_DISABLE`
 
-### 5. Verify
+Set to `"1"` in the user settings file to skip the hook entirely. Read from the user settings file only. To turn the hook off for one project, disable the plugin there instead.
 
-Run a quick test:
+An invalid regular expression in either list blocks every command with a message naming the bad pattern, so a typo can't silently switch a rule off. The hook also refuses every command when `jq` is missing, since it can't read the tool input without it.
+
+## Verifying the hook
+
+From inside a Claude Code session with the plugin enabled:
 
 ```bash
-echo '{"tool_input":{"command":"git push origin main"}}' | <path-to-script>
+echo '{"tool_input":{"command":"git push origin main"}}' \
+  | "${CLAUDE_PLUGIN_ROOT}/hooks/block-dangerous-git.sh"
 ```
 
-Should exit with code 2 and print a BLOCKED message to stderr.
+Outside a session, `CLAUDE_PLUGIN_ROOT` is unset; use the installed copy at `~/.claude/plugins/cache/evans-sam-skills/skills/<version>/hooks/block-dangerous-git.sh` or a checkout of this repo.
+
+It should exit with code `2` and print a `BLOCKED:` line to stderr.
+
+Inside a Claude Code session, asking the assistant to run `git push` should produce the same refusal.
