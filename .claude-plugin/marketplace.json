@@ -7,6 +7,12 @@
       "name": "skills",
       "source": "./",
       "description": "A collection of agent skills for planning, development, and tooling"
+    },
+    {
+      "name": "docs-vault",
+      "source": "./plugins/docs-vault",
+      "description": "Route durable documentation (plans, specs, PRDs, test plans, triage) into one docs vault: session rule, write-guard hook, and setup command",
+      "category": "productivity"
     }
   ]
 }

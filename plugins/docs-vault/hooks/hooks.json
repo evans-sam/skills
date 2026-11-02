@@ -1,0 +1,30 @@
+{
+  "description": "Route durable documentation to the docs vault",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-doc-write.sh\"",
+            "timeout": 10,
+            "statusMessage": "Checking doc destination..."
+          }
+        ]
+      }
+    ]
+  }
+}
