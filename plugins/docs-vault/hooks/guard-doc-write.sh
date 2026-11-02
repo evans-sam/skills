@@ -66,7 +66,7 @@ Re-issue this write into the vault:
 2. Put the file in the matching folder: plans/ specs/ prds/ test-plans/ triage/ reference/ scratch/.
 3. Name it YYYY-MM-DD-<issue-key>-<slug>-<type>.md and add the frontmatter and MOC links AGENTS.md requires.
 
-If this file is meant to stay in the repo, set DOCS_VAULT_GUARD to \"off\" in the env block of this project's .claude/settings.json."
+If this file is meant to stay in the repo, say so and stop. The user can set DOCS_VAULT_GUARD to \"off\" in the env block of this project's .claude/settings.json, or run /docs-vault:setup --guard off --project. Don't change that setting yourself."
 
 jq -n --arg r "$reason" '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"deny",permissionDecisionReason:$r}}'
 exit 0
