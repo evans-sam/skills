@@ -1,0 +1,10 @@
+{
+  "name": "docs-vault",
+  "version": "0.1.0",
+  "description": "Routes durable documentation (plans, specs, PRDs, test plans, triage, RFCs) into one docs vault: session context, a write-guard hook, and a setup command",
+  "author": { "name": "Sam Evans" },
+  "homepage": "https://github.com/evans-sam/skills/tree/main/plugins/docs-vault",
+  "repository": "https://github.com/evans-sam/skills",
+  "license": "MIT",
+  "keywords": ["docs", "documentation", "obsidian", "vault", "hooks"]
+}

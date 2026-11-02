@@ -13,6 +13,14 @@ Install as a Claude Code plugin:
 
 Skills are available immediately as `skills:<skill-name>` after installation.
 
+## docs-vault plugin
+
+This repo also publishes `docs-vault`, a plugin that routes the documents these skills produce (plans, specs, PRDs, test plans, triage write-ups) into one docs vault instead of the code repo: a session-start rule, a write-guard hook, and `/docs-vault:setup`. See [plugins/docs-vault](./plugins/docs-vault/README.md).
+
+```
+/plugin install docs-vault@evans-sam-skills
+```
+
 ## Planning & Design
 
 These skills help you think through problems before writing code.
