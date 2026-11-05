@@ -21,6 +21,14 @@ This repo also publishes `docs-vault`, a plugin that routes the documents these 
 /plugin install docs-vault@evans-sam-skills
 ```
 
+## testing-guidance plugin
+
+`testing-guidance` puts a team's testing guidance (unit tests check a method, integration tests check a service, e2e tests check the system, and the rules for each) in front of Claude the first time a session's prompt mentions tests or a test file is written, once per conversation. A bundled, organization-neutral copy ships with it; `/testing-guidance sync <source>` replaces it with your own document. It is a hooks module, so it needs a Claude Code build that loads function hooks. See [plugins/testing-guidance](./plugins/testing-guidance/README.md).
+
+```
+/plugin install testing-guidance@evans-sam-skills
+```
+
 ## Planning & Design
 
 These skills help you think through problems before writing code.

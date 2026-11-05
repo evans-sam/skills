@@ -1,0 +1,8 @@
+{
+  "name": "testing-guidance",
+  "version": "0.1.0",
+  "description": "Puts your team's testing guidance in front of Claude the first time a session writes or plans tests, synced from any document",
+  "license": "MIT",
+  "author": { "name": "Sam Evans" },
+  "types": "./types/index.d.ts"
+}
