@@ -13,6 +13,12 @@
       "source": "./plugins/docs-vault",
       "description": "Route durable documentation (plans, specs, PRDs, test plans, triage) into one docs vault: session rule, write-guard hook, and setup command",
       "category": "productivity"
+    },
+    {
+      "name": "testing-guidance",
+      "source": "./plugins/testing-guidance",
+      "description": "Puts your team's testing guidance in front of Claude the first time a session writes or plans tests, synced from any document",
+      "category": "productivity"
     }
   ]
 }
