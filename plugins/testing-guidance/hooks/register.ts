@@ -9,13 +9,16 @@ const COMMAND = 'testing-guidance'
 const TOOL = 'set_guidance'
 const TOOL_FULL = `mcp__${PLUGIN}__${TOOL}`
 const STORE_KEY = 'guidance'
+const SYNC_KEY = 'syncRequest'
+const SYNC_TTL_MS = 60 * 60 * 1000
 
 const injected = atom({ plugin: 'testing-guidance', key: 'injected' } as const, false)
 const agents = atom({ plugin: 'testing-guidance', key: 'agents' } as const, [])
 
-// A prompt that is about tests, specs, coverage, TDD, or a test plan.
+// A prompt that is about tests, specs, coverage, TDD, or a test plan. The
+// plugin's own name doesn't count.
 const PROMPT_SIGNAL =
-  /\b(tests?|testing|tested|specs?|tdd|coverage|unit[- ]tests?|integration[- ]tests?|e2e|end[- ]to[- ]end|jest|vitest|playwright|cypress|supertest|nock|test[- ]plans?)\b/i
+  /\b(tests?|testing(?!-guidance)|tested|specs?|tdd|coverage|unit[- ]tests?|integration[- ]tests?|e2e|end[- ]to[- ]end|jest|vitest|playwright|cypress|supertest|nock|test[- ]plans?)\b/i
 
 // A test file by name or by folder.
 const TEST_FILE =
@@ -37,6 +40,29 @@ const stored = async ($: EngineInterface) => {
 }
 
 const current = async ($: EngineInterface) => (await stored($)) ?? DEFAULT_GUIDANCE
+
+// A sync the person asked for, which authorizes one set_guidance call.
+type SyncRequest = { source: string; requestedAt: number }
+
+const isSyncRequest = (value: unknown): value is SyncRequest =>
+  typeof value === 'object' &&
+  value !== null &&
+  typeof (value as SyncRequest).source === 'string' &&
+  typeof (value as SyncRequest).requestedAt === 'number'
+
+// The pending sync request, if one was made within the last hour.
+const pendingSync = async ($: EngineInterface) => {
+  const value = await $.store.get(SYNC_KEY)
+  if (!isSyncRequest(value)) {
+    return undefined
+  }
+  if ((await $.clock.now()) - value.requestedAt > SYNC_TTL_MS) {
+    await $.store.delete(SYNC_KEY)
+    return undefined
+  }
+
+  return value
+}
 
 // Appends the guidance to a conversation once: the main one, or the subagent
 // loop `agentId` names. Resolves true when it appended now.
@@ -83,6 +109,10 @@ const describe = async ($: EngineInterface) => {
         `  ${DEFAULT_GUIDANCE.text.length} characters${DEFAULT_GUIDANCE.editedAt ? `, last edited ${DEFAULT_GUIDANCE.editedAt}` : ''}`,
       ]
   lines.push(loaded ? 'Loaded into this conversation.' : 'Not loaded into this conversation yet.')
+  const pending = await pendingSync($)
+  if (pending) {
+    lines.push(`A sync from ${pending.source} is pending; the next set_guidance call completes it.`)
+  }
   lines.push('Subcommands: sync <source>, status, show, reset.')
 
   return lines.join('\n')
@@ -129,6 +159,7 @@ export const register: Register = on => {
             text: 'Give a source to sync from: /testing-guidance sync <Notion URL, http(s) URL, or file path>.',
           }
         }
+        await $.store.set(SYNC_KEY, { source, requestedAt: await $.clock.now() } satisfies SyncRequest)
         return {
           text: `Syncing the testing guidance from ${source}. The assistant fetches it, condenses it, and stores it with ${TOOL_FULL}.`,
           context: [syncInstruction(source)],
@@ -140,6 +171,7 @@ export const register: Register = on => {
         return { text: render(await current($)) }
       case 'reset': {
         await $.store.delete(STORE_KEY)
+        await $.store.delete(SYNC_KEY)
         return { text: 'Synced guidance removed; the bundled default is in force again.' }
       }
       default:
@@ -147,21 +179,34 @@ export const register: Register = on => {
     }
   }).catch(() => ({ text: `${PLUGIN}: the command failed.` }))
 
-  // The model hands back condensed guidance; it is stored for this machine and
-  // loaded into the conversation at once.
+  // The model hands back condensed guidance after the person ran sync; it is
+  // stored for this machine and loaded into the conversation at once. A call
+  // with no pending sync request, or for another source, is refused.
   on('tool.call', { tool: /^mcp__testing-guidance__set_guidance$/ }, async ($, e) => {
     const input = e as Record<string, unknown>
     const text = typeof input.text === 'string' ? input.text.trim() : ''
     const source = typeof input.source === 'string' ? input.source.trim() : ''
     const editedAt = typeof input.editedAt === 'string' && input.editedAt.trim() !== '' ? input.editedAt.trim() : undefined
 
+    const pending = await pendingSync($)
+    if (!pending) {
+      return {
+        deny: `${TOOL_FULL}: no /testing-guidance sync is pending. The person runs /testing-guidance sync <source> first; this tool only completes that request.`,
+      }
+    }
     if (text === '' || source === '') {
       return { deny: `${TOOL_FULL}: text and source are both required.` }
+    }
+    if (source !== pending.source) {
+      return {
+        deny: `${TOOL_FULL}: the pending sync is for ${pending.source}; pass that source exactly as given.`,
+      }
     }
 
     const syncedAt = new Date(await $.clock.now()).toISOString()
     const guidance: Guidance = { text, source, syncedAt, ...(editedAt ? { editedAt } : {}) }
     await $.store.set(STORE_KEY, guidance)
+    await $.store.delete(SYNC_KEY)
     await inject($, e.agentId, true)
 
     return {

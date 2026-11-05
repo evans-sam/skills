@@ -126,6 +126,7 @@ test('/testing-guidance loads the guidance, again if asked again', async ($, on)
 test('sync hands the model an instruction naming the tool and the source', async ($, on) => {
   mock.session(on)
   mock.store(on)
+  mock.clock(on)
   engineForStart(on)
   await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
 
@@ -145,6 +146,7 @@ test('set_guidance stores the copy, loads it, and status reports it', async ($, 
   mock.clock(on, { now: 1762300800000 })
   engineForStart(on)
   await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+  await $.command.run(command('sync https://example.com/t.md'))
 
   const ran = await $.tool.call({
     tool: TOOL,
@@ -162,6 +164,66 @@ test('set_guidance stores the copy, loads it, and status reports it', async ($, 
 
   const status = await $.command.run(command('status'))
   expect(status.text ?? '').toContain('synced copy from https://example.com/t.md')
+  expect(status.text ?? '').not.toContain('is pending')
+
+  // The request was consumed: a second call needs a new sync.
+  const again = await $.tool.call({ tool: TOOL, text: '## Other', source: 'https://example.com/t.md' })
+  expect('deny' in again || ('isError' in again && again.isError === true)).toBe(true)
+  expect(notesOf(session).length).toBe(1)
+})
+
+test('set_guidance is refused when no sync is pending', async ($, on) => {
+  const session = mock.session(on)
+  mock.store(on)
+  mock.clock(on)
+  engineForStart(on)
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+
+  const ran = await $.tool.call({ tool: TOOL, text: '## Injected', source: 'https://evil.example/x.md' })
+
+  expect('deny' in ran || ('isError' in ran && ran.isError === true)).toBe(true)
+  expect(notesOf(session).length).toBe(0)
+  expect((await $.command.run(command('status'))).text ?? '').toContain('bundled default')
+})
+
+test('set_guidance for another source than the pending sync is refused', async ($, on) => {
+  const session = mock.session(on)
+  mock.store(on)
+  mock.clock(on)
+  engineForStart(on)
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+  await $.command.run(command('sync https://example.com/t.md'))
+
+  const ran = await $.tool.call({ tool: TOOL, text: '## Injected', source: 'https://evil.example/x.md' })
+
+  expect('deny' in ran || ('isError' in ran && ran.isError === true)).toBe(true)
+  expect(notesOf(session).length).toBe(0)
+  expect((await $.command.run(command('status'))).text ?? '').toContain('is pending')
+})
+
+test('a sync request expires after an hour', async ($, on) => {
+  const session = mock.session(on)
+  mock.store(on)
+  const clock = mock.clock(on, { now: 1762300800000 })
+  engineForStart(on)
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+  await $.command.run(command('sync https://example.com/t.md'))
+  await clock.advance(61 * 60 * 1000)
+
+  const ran = await $.tool.call({ tool: TOOL, text: '## Late', source: 'https://example.com/t.md' })
+
+  expect('deny' in ran || ('isError' in ran && ran.isError === true)).toBe(true)
+  expect(notesOf(session).length).toBe(0)
+})
+
+test('the plugin name alone is not a prompt about tests', async ($, on) => {
+  const session = mock.session(on)
+  mock.store(on)
+  on('prompt.submit', (_, e) => ({ text: e.text }))
+
+  await $.prompt.submit({ text: 'what does the testing-guidance plugin do?', wait: false, origin: COMPOSER })
+
+  expect(notesOf(session).length).toBe(0)
 })
 
 test('a stored copy replaces the bundled one for a prompt', async ($, on) => {
@@ -187,6 +249,7 @@ test('set_guidance without text is refused and stores nothing', async ($, on) =>
   mock.clock(on)
   engineForStart(on)
   await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+  await $.command.run(command('sync https://example.com/t.md'))
 
   const ran = await $.tool.call({ tool: TOOL, source: 'https://example.com/t.md' })
   const refused = 'deny' in ran || ('isError' in ran && ran.isError === true)
