@@ -1,10 +1,9 @@
 {
   "name": "skills",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A collection of agent skills for planning, development, and tooling",
   "author": { "name": "Sam Evans" },
-  "homepage": "https://github.com/evans-sam/skills",
   "repository": "https://github.com/evans-sam/skills",
   "license": "MIT",
-  "keywords": ["skills", "planning", "tdd", "refactoring"]
+  "keywords": ["skills", "planning", "prd", "implementation-plan", "test-plan", "tdd", "refactoring", "architecture", "triage", "blueprint", "ddd", "git-guardrails"]
 }
