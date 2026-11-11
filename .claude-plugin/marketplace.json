@@ -1,22 +1,26 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "evans-sam-skills",
-  "description": "A collection of agent skills for planning, development, and tooling",
+  "description": "Sam Evans' Claude Code plugins: planning and development skills, a docs-vault router, and team testing guidance",
   "owner": { "name": "Sam Evans" },
   "plugins": [
     {
       "name": "skills",
       "source": "./",
+      "version": "1.1.1",
       "description": "A collection of agent skills for planning, development, and tooling"
     },
     {
       "name": "docs-vault",
       "source": "./plugins/docs-vault",
+      "version": "0.1.0",
       "description": "Route durable documentation (plans, specs, PRDs, test plans, triage) into one docs vault: session rule, write-guard hook, and setup command",
       "category": "productivity"
     },
     {
       "name": "testing-guidance",
       "source": "./plugins/testing-guidance",
+      "version": "0.1.0",
       "description": "Puts your team's testing guidance in front of Claude the first time a session writes or plans tests, synced from any document",
       "category": "productivity"
     }

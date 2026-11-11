@@ -4,12 +4,14 @@ A collection of agent skills that extend capabilities across planning, developme
 
 ## Installation
 
-Install as a Claude Code plugin:
+Inside a Claude Code session:
 
 ```
 /plugin marketplace add evans-sam/skills
 /plugin install skills@evans-sam-skills
 ```
+
+From a shell, the same two steps are `claude plugin marketplace add evans-sam/skills` and `claude plugin install skills@evans-sam-skills`. In the desktop app, click + next to the prompt box, then Plugins. Plugin docs: https://docs.claude.com/en/docs/claude-code/plugins
 
 Skills are available immediately as `skills:<skill-name>` after installation.
 
@@ -53,6 +55,7 @@ These skills help you write, refactor, and fix code.
 - **tdd** — Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time.
 - **triage-issue** — Investigate a bug by exploring the codebase, identify the root cause, and create an issue with a TDD-based fix plan. Creates a GitHub issue directly, or saves to a location of your choice.
 - **improve-codebase-architecture** — Explore a codebase for architectural improvement opportunities, focusing on deepening shallow modules and improving testability.
+- **troubleshoot** — Search connected tools (Slack, Notion, Linear, docs) for a prior solution to an operational issue: deploy failures, install errors, infra breakage. Not for debugging code logic.
 
 ## Tooling & Setup
 
